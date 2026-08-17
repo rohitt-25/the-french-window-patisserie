@@ -87,13 +87,14 @@ export default function Visit() {
           </div>
 
           <figure className="md:col-span-5">
+            {/* Deliberate bookend — the page opens and closes on the door. */}
             <div className="overflow-hidden">
               <img
                 data-fade
-                src={sized(PHOTOS.plate, 1000, 1250)}
-                srcSet={srcSet(PHOTOS.plate, [600, 900, 1200])}
+                src={sized(PHOTOS.facade, 1000, 1250)}
+                srcSet={srcSet(PHOTOS.facade, [600, 900, 1200])}
                 sizes="(min-width: 768px) 40vw, 100vw"
-                alt={ALT.plate}
+                alt={ALT.facade}
                 width="1000"
                 height="1250"
                 loading="lazy"

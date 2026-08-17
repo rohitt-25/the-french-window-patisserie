@@ -34,12 +34,13 @@ export const PHOTOS = {
   coffee: P('AHRPTWkzYzJss_jk0CTwkd0A82MVXqL_rVC2azbmSGU8pk9tbATCVdqI8Hai0ZeveaoGNy0k5ehOIAArRAYQq5TCHu977tYSm5i8eWugd2RlHhg2jcriGlZZl33gLVk0PfznMOyUUT0ja7sgCP9T'),
 };
 
+/** Alt text describes what is actually in each frame, not what we wish were. */
 export const ALT = {
-  facade: 'The wooden French Window Patisserie sign hanging above the entrance on Lane 5, Koregaon Park',
-  courtyard: 'Shaded outdoor courtyard seating with potted plants at The French Window Patisserie',
-  pastries: 'Freshly baked French pastries on display at the counter',
-  plate: 'A plated European breakfast served at the café',
-  coffee: 'Coffee served on an outdoor table in the courtyard',
+  facade: 'The wooden French Window Patisserie sign hanging above the entrance, shaded by trees',
+  courtyard: 'The red brick archway entrance to The French Window Patisserie on Lane 5, with courtyard seating beyond',
+  pastries: 'A croissant served open with hollandaise sauce on a white plate',
+  plate: 'A glazed croissant on a blue stoneware plate with a sauce drizzle',
+  coffee: 'A cappuccino in a white cup on a wooden table',
 };
 
 /**
@@ -90,8 +91,8 @@ export const ORDERS = [
   {
     name: 'The croissants',
     note: '“The crispy flaky layers are just amazing.”',
-    photo: PHOTOS.pastries,
-    alt: ALT.pastries,
+    photo: PHOTOS.plate,
+    alt: ALT.plate,
   },
   {
     name: 'Aztec hot chocolate',
@@ -100,10 +101,12 @@ export const ORDERS = [
     alt: ALT.coffee,
   },
   {
-    name: 'Avocado toast & cheese omelette',
+    // A category rather than a dish name: the photo is a croissant plate, and
+    // labelling it "avocado toast" would caption a picture of something else.
+    name: 'All-day breakfast',
     note: '“Both were tasty. Service was equally quick and good.”',
-    photo: PHOTOS.plate,
-    alt: ALT.plate,
+    photo: PHOTOS.pastries,
+    alt: ALT.pastries,
   },
 ];
 
