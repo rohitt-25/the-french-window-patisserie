@@ -15,7 +15,7 @@
     <meta property="og:locale" content="en_IN" />
     <meta property="og:image" content="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWn8f9CHzQerdn1mbiqmJM8B4r0lx70YZkcvmaRhgOMmekSEYIR2MXC9giFkYwVTWyf0CeqPro6_rBnGRzaOnaLQ1tcE18lIDSCbKRX5vjGMWtv8LkKGqhVEoVQeeXpdoTzF_WI=w1920-h1080-k-no" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#450A0A" />
+    <meta name="theme-color" content="#78350F" />
 
     <!-- Single LocalBusiness entity. Duplicated/competing blocks make search
          engines pick one arbitrarily. -->
@@ -51,51 +51,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <style>
-      :root {
-        --bg: #FEF2F2;
-        --surface: #FFFFFF;
-        --primary: #450A0A;
-        --muted: #64748B;
-        --border: #FECACA;
-        --accent: #DC2626;
-        --gold: #A16207;
-      }
-      body { 
-        background-color: var(--bg); 
-        color: var(--primary); 
-        font-family: 'Inter', sans-serif; 
-        margin: 0;
-        padding: 0;
-      }
-      
-      .noise-overlay {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none; opacity: 0.03; z-index: 9999;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%0A%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      }
-
-      .watermark {
-        position: fixed;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%) rotate(-15deg);
-        font-family: 'Calistoga', serif;
-        font-size: clamp(8rem, 25vw, 20rem);
-        color: var(--primary);
-        opacity: 0.03;
-        white-space: nowrap;
-        pointer-events: none;
-        z-index: -1;
-        user-select: none;
-      }
-    </style>
   </head>
   <body class="antialiased">
-    <div class="noise-overlay"></div>
-    <div class="watermark">PUNE / PARIS</div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

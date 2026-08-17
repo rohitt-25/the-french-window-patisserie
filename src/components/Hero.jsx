@@ -1,76 +1,129 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { BUSINESS, PHOTOS, ALT, GRADE, sized, srcSet } from '../lib/content';
 
-const Hero = () => {
-  const containerRef = useRef(null);
-  const imageRef = useRef(null);
+/**
+ * Editorial split: type holds the left, a tall image plate the right.
+ *
+ * The headline is set in Playfair at a scale you cannot get from a template —
+ * that single decision does most of the work here. Words rise out of a mask on
+ * load; the plate drifts slower than the page to give the frame depth.
+ */
+const LINE_1 = ['Parisian', 'romance,'];
+const LINE_2 = ['baked', 'in', 'Pune.'];
+
+function Word({ children }) {
+  return (
+    <span data-word className="inline-block overflow-hidden pr-[0.2em] align-bottom">
+      <span className="inline-block">{children}</span>
+    </span>
+  );
+}
+
+export default function Hero() {
+  const root = useRef(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const mm = gsap.matchMedia();
-
-    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-      gsap.to(imageRef.current, {
-        yPercent: -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 0.5
-        }
-      });
-    });
-
-    return () => mm.revert();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = gsap.context(() => {
+      gsap
+        .timeline({ defaults: { ease: 'expo.out' } })
+        .from('[data-word] > span', { yPercent: 115, duration: 1.1, stagger: 0.06 })
+        .from('[data-hero-meta]', { opacity: 0, y: 14, duration: 0.6, stagger: 0.08 }, '-=0.6')
+        .from('[data-hero-plate]', { clipPath: 'inset(0% 0% 100% 0%)', duration: 1.3 }, 0.15)
+        .from('[data-hero-img]', { scale: 1.18, duration: 1.6 }, 0.15);
+    }, root);
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section 
-      ref={containerRef}
-      className="relative min-h-[100dvh] flex flex-col md:flex-row items-center bg-[#FEF2F2] pt-28 pb-16 px-6 md:px-12 lg:px-24"
+    <section
+      id="top"
+      ref={root}
+      className="relative overflow-hidden bg-cream pt-28 pb-16 md:pt-36 md:pb-24"
     >
-      <div className="w-full md:w-1/2 flex flex-col justify-center space-y-8 z-10">
-        <h1 className="font-['Calistoga'] text-[clamp(3rem,8vw,5rem)] leading-[1.1] text-[#450A0A] tracking-[-1.5px]">
-          Parisian romance, baked fresh in Koregaon Park.
-        </h1>
-        
-        <p className="font-['Inter'] text-lg md:text-xl text-[#57606F] max-w-lg leading-relaxed">
-          Pune’s beloved French escape with over 1,700 five-star dining reviews on Lane 5.
-        </p>
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-end gap-10 px-5 md:grid-cols-12 md:gap-12 md:px-10">
+        <div className="md:col-span-7">
+          <p data-hero-meta className="t-label mb-7 text-brand">
+            Patisserie & Bistro · Est. Lane 5, {BUSINESS.area}
+          </p>
 
-        <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
-          <a
-            href="https://wa.me/919766644202"
-            className="h-[44px] px-8 flex items-center justify-center bg-[#DC2626] text-[#FFFFFF] font-['JetBrains_Mono'] text-sm uppercase tracking-wider hover:bg-[#B91C1C] focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] transition-colors duration-200 whitespace-nowrap"
-          >
-            Reserve via WhatsApp
-          </a>
-          <a
-            href="tel:+919766644202"
-            className="h-[44px] px-2 flex items-center justify-center border-b-2 border-[#A16207] text-[#A16207] font-['JetBrains_Mono'] text-sm uppercase tracking-wider hover:opacity-80 focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] transition-opacity duration-200 whitespace-nowrap"
-          >
-            Call Direct
-          </a>
-        </div>
-      </div>
+          <h1 className="t-display text-ink" style={{ fontSize: 'clamp(3.1rem, 8.4vw, 8.5rem)' }}>
+            <span className="block">
+              {LINE_1.map((w) => (
+                <Word key={w}>{w}</Word>
+              ))}
+            </span>
+            <span className="block italic text-brand">
+              {LINE_2.map((w) => (
+                <Word key={w}>{w}</Word>
+              ))}
+            </span>
+          </h1>
 
-      <div className="w-full md:w-1/2 mt-12 md:mt-0 md:pl-16 z-10">
-        <div className="relative aspect-[4/3] w-full overflow-hidden shadow-2xl">
-          <img
-            ref={imageRef}
-            src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkmLlVdH3YJdzd6f5VK9DxLT0dCp5R7_H8e2eBLeKYa_yt1Y1Hwlcl6TciwePboOOKJ8zbv7D20oE3TZwX63IGx51AU03D6OIe3-4Jz-15HD6b66y0VUMa7eMfc8ccgcIgpsfF73i-Gpva6=w1920-h1080-k-no"
-            alt="Charming exterior facade of the French Window Patisserie"
-            className="w-full h-full object-cover"
-            fetchPriority="high"
-            width="960"
-            height="720"
-          />
+          <div
+            data-hero-meta
+            className="mt-9 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7"
+          >
+            <a
+              href={BUSINESS.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex h-[58px] items-center justify-center bg-brand px-9 text-[15px] font-medium text-white transition-colors hover:bg-brand-2"
+            >
+              Reserve a table
+              <span className="ml-3 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                →
+              </span>
+            </a>
+            <a
+              href={BUSINESS.phoneHref}
+              className="link-sweep inline-flex h-[58px] items-center font-mono text-[15px] text-ink"
+            >
+              {BUSINESS.phone}
+            </a>
+          </div>
+
+          <dl
+            data-hero-meta
+            className="mt-12 flex flex-wrap items-baseline gap-x-10 gap-y-4 border-t border-line pt-6"
+          >
+            <div>
+              <dt className="t-label text-ink-soft">Rated</dt>
+              <dd className="t-display mt-1 text-3xl text-ink">{BUSINESS.rating} ★</dd>
+            </div>
+            <div>
+              <dt className="t-label text-ink-soft">Reviews</dt>
+              <dd className="t-display mt-1 text-3xl text-ink">{BUSINESS.reviewCount}</dd>
+            </div>
+            <div>
+              <dt className="t-label text-ink-soft">Open</dt>
+              <dd className="t-display mt-1 text-3xl text-ink">7 days</dd>
+            </div>
+          </dl>
         </div>
+
+        <figure data-hero-plate className="md:col-span-5">
+          <div className="relative overflow-hidden">
+            <img
+              data-hero-img
+              src={sized(PHOTOS.facade, 1200, 1500)}
+              srcSet={srcSet(PHOTOS.facade, [600, 900, 1200])}
+              sizes="(min-width: 768px) 40vw, 100vw"
+              alt={ALT.facade}
+              width="1200"
+              height="1500"
+              fetchPriority="high"
+              decoding="async"
+              className="aspect-[4/5] w-full object-cover"
+              style={{ filter: GRADE }}
+            />
+          </div>
+          <figcaption className="t-label mt-4 text-ink-soft">
+            The window on Lane 5
+          </figcaption>
+        </figure>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

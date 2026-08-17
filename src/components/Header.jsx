@@ -1,60 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { BUSINESS } from '../lib/content';
 
-const Header = () => {
+/**
+ * The header carries the two things a hungry person actually wants: where it
+ * is and how to reach it. The phone is a visible control at every width — on a
+ * phone it is an icon button at full 44px, never hidden behind a breakpoint.
+ */
+export default function Header() {
+  const [solid, setSolid] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setSolid(window.scrollY > 40);
+    onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+    return () => removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#FEF2F2]/90 backdrop-blur-md border-b border-[#FECACA]">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-        {/* Branding */}
-        <div className="flex items-center">
-          <a
-            href="/"
-            className="font-['Calistoga'] text-xl md:text-2xl text-[#450A0A] tracking-tight hover:opacity-80 transition-opacity focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] rounded-sm min-h-[44px] flex items-center"
-          >
-            The French Window
-          </a>
-        </div>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        solid ? 'bg-cream/95 backdrop-blur-md border-b border-line' : 'bg-transparent'
+      }`}
+    >
+      <div className="mx-auto flex h-20 max-w-[1400px] items-center justify-between gap-4 px-5 md:px-10">
+        <a
+          href="#top"
+          className="t-display flex min-h-[44px] items-center text-[19px] md:text-[22px] text-ink transition-opacity hover:opacity-70"
+        >
+          The French Window
+        </a>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <span className="font-['JetBrains_Mono'] text-sm text-[#57606F]">
-            Lane 5, Koregaon Park
+        <nav className="hidden items-center gap-9 md:flex">
+          <span className="t-label text-ink-soft">
+            Lane 5 · {BUSINESS.area}
           </span>
           <a
-            href="tel:+919766644202"
-            className="font-['JetBrains_Mono'] text-sm text-[#450A0A] hover:text-[#DC2626] transition-colors whitespace-nowrap focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] rounded-sm min-h-[44px] flex items-center"
+            href={BUSINESS.phoneHref}
+            className="link-sweep flex min-h-[44px] items-center font-mono text-[13px] text-ink transition-colors hover:text-brand"
           >
-            +91 97666 44202
+            {BUSINESS.phone}
           </a>
-          <a 
-            href="https://wa.me/919766644202" 
-            className="bg-[#DC2626] text-[#FFFFFF] px-6 py-3 font-['Inter'] text-sm font-medium hover:bg-[#B91C1C] transition-colors whitespace-nowrap focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] rounded-sm"
+          <a
+            href={BUSINESS.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="flex min-h-[46px] items-center bg-brand px-7 text-[13px] font-medium text-white transition-colors hover:bg-brand-2"
           >
-            Book Table
+            Book a table
           </a>
         </nav>
 
-        {/* Mobile: calling is the primary action for a cafe, so the number is a
-            visible tappable control here — never hidden behind a breakpoint. */}
-        <div className="md:hidden flex items-center gap-1">
+        <div className="flex items-center gap-1 md:hidden">
           <a
-            href="tel:+919766644202"
-            aria-label="Call The French Window Patisserie on +91 97666 44202"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center px-2 text-[#450A0A] hover:text-[#DC2626] transition-colors focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] rounded-sm"
+            href={BUSINESS.phoneHref}
+            aria-label={`Call ${BUSINESS.name} on ${BUSINESS.phone}`}
+            className="flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-brand"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
           </a>
           <a
-            href="https://wa.me/919766644202"
-            className="bg-[#DC2626] text-[#FFFFFF] px-4 font-['Inter'] text-xs font-bold uppercase tracking-wider shadow-sm min-h-[44px] flex items-center justify-center focus:outline-2 focus:outline-offset-2 focus:outline-[#DC2626] rounded-sm whitespace-nowrap"
+            href={BUSINESS.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="flex min-h-[44px] items-center whitespace-nowrap bg-brand px-5 text-[12px] font-medium uppercase tracking-wider text-white transition-colors hover:bg-brand-2"
           >
-            Book Now
+            Book
           </a>
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}
